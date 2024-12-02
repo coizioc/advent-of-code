@@ -66,8 +66,12 @@ def main():
             if len(lines) > 0:
                 out.append(validate("Part 1", matches[0], lines[0]))
 
-            if len(lines) == 2:
-                out.append(validate("Part 2", matches[1], lines[1]))
+            if len(lines) > 1:
+                # 2022-10 part 2's answer returns ASCII art of a sequence of letters and cannot be directly validated.
+                if year == "2022" and day == "10":
+                    out.append(validate("Part 2", matches[1], matches[1]))
+                else:
+                    out.append(validate("Part 2", matches[1], lines[1]))
 
     if len(out) > 0:
         out_path = os.path.join(

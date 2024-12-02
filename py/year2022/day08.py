@@ -43,6 +43,8 @@ def get_scenic_score(trees, i, j):
 
 print(num_visible)
 print(
-    max(get_scenic_score(lines, i, j))
-    for i, j in itertools.product(range(len(lines)), range(len(lines[0])))
+    max(
+        get_scenic_score(lines, i, j)
+        for i, j in itertools.product(range(len(lines)), range(len(lines[0])))
+    )
 )
