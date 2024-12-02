@@ -55,7 +55,7 @@ def main():
             text = f.read()
 
         if len(text) > 0:
-            print("Input already exists for that date.")
+            print("Input already exists for that date.", file=sys.stderr)
             exit(0)
 
     input_text = make_request(year, day)
@@ -67,7 +67,7 @@ def main():
 
         with open(input_path, "w+") as f:
             f.write(input_text)
-            print("Wrote input to", input_path)
+            print("Wrote input to", input_path, file=sys.stderr)
 
     exit(0)
 

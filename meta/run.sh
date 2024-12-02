@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+# Create temp dir if doesn't exist.
+mkdir -p meta/__temp
+
 flag_verify='false'
 
 print_usage() {
-    echo "Usage: ./run.sh <language> <year> <day> (-v)"
+    >&2 echo "Usage: ./run.sh <language> <year> <day> (-v)"
 }
 
 if [ $# -lt 3 ]; then
@@ -26,29 +29,27 @@ while getopts 'v' flag; do
 done
 
 # Get input for <year> and <day> arguments.
-./get_aoc.py $year $day || {
+./meta/get_aoc.py $year $day || {
     exit 1;
 }
 
 # Check to see if <language> argument is valid.
-if [ ! -f "./__run/$language.sh" ]; then
-    echo "Unknown language $language"
+if [ ! -f "./meta/__run/$language.sh" ]; then
+    >&2 echo "Unknown language $language"
     exit 1;
 fi
 
 # Run script for that language for the given year and day.
 # Redirect otuput to temporary log file.
-bash "./__run/$language.sh" $year $day > log.out || {
+bash "./meta/__run/$language.sh" $year $day > meta/__temp/out_${language}_${year}_${day}.log || {
     exit 1;
 }
 
 # If user passes in verify flag, run verification script.
-if [ "$flag_verify" = "true" ]; then
-    ./verify.py $year $day
+if [[ $flag_verify = "true" ]]; then
+    ./meta/verify.py $language $year $day
+    cat meta/__temp/validation_${language}_${year}_${day}.log
 else
     # Log output from script.
-    cat log.out
+    cat meta/__temp/out_${language}_${year}_${day}.log
 fi
-
-# Delete temporary log file.
-rm log.out;

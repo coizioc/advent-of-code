@@ -1,1 +1,0 @@
-python py/year$1/day$2.py

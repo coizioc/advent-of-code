@@ -13,7 +13,7 @@ pub fn run(day: String) {
         Ok(4) => day04::run(),
         Ok(5) => day05::run(),
         Ok(6) => day06::run(),
-        Ok(n) => println!("No program found for day {}.", n),
-        Err(e) => println!("Invalid argument for day: {}.", e),
+        Ok(n) => panic!("No program found for day {}.", n),
+        Err(e) => panic!("Invalid argument for day: {}.", e),
     }
 }

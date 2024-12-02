@@ -17,11 +17,11 @@ if session is None:
 
 
 def validate_args() -> Tuple[str, str]:
-    if len(sys.argv) < 3:
-        print("Usage: ./get_aoc <year> <day>")
+    if len(sys.argv) < 4:
+        print("Usage: ./verify <language> <year> <day>")
         exit(1)
 
-    year, day = sys.argv[1], sys.argv[2]
+    language, year, day = sys.argv[1], sys.argv[2], sys.argv[3]
     if not year.isnumeric():
         print("Argument <year> is not numeric!")
         exit(1)
@@ -31,18 +31,18 @@ def validate_args() -> Tuple[str, str]:
     if not re.match(r"\d{2}", day) or int(day) < 1 or int(day) > 25:
         print("Argument <day> must be a two digit number between 01 and 25!")
         exit(1)
-    return year, day
+    return language, year, day
 
 
 def validate(part, expected, actual):
     if expected == actual:
-        print(f"[O] {part} {expected} == {actual}")
+        return f"[O] {part} {expected} == {actual}"
     else:
-        print(f"[X] {part} {expected} != {actual}")
+        return f"[X] {part} {expected} != {actual}"
 
 
 def main():
-    year, day = validate_args()
+    language, year, day = validate_args()
     headers = {"Cookie": f"session={session}"}
     resp = requests.get(
         f"https://adventofcode.com/{year}/day/{int(day)}", headers=headers
@@ -57,15 +57,24 @@ def main():
         print("No answers found for given date.")
         exit(0)
 
-    if os.path.exists("log.out"):
-        with open("log.out", "r") as f:
+    out = []
+    log_path = os.path.join("meta", "__temp", f"out_{language}_{year}_{day}.log")
+    if os.path.exists(log_path):
+        with open(log_path, "r") as f:
             lines = f.read().splitlines()
 
-            if len(matches) > 0:
-                validate("Part 1", matches[0], lines[0])
+            if len(lines) > 0:
+                out.append(validate("Part 1", matches[0], lines[0]))
 
-            if len(matches) == 2:
-                validate("Part 2", matches[1], lines[1])
+            if len(lines) == 2:
+                out.append(validate("Part 2", matches[1], lines[1]))
+
+    if len(out) > 0:
+        out_path = os.path.join(
+            "meta", "__temp", f"validation_{language}_{year}_{day}.log"
+        )
+        with open(out_path, "w+") as f:
+            f.write("\n".join(out) + "\n")
 
     exit(0)
 
