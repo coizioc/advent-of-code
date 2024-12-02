@@ -59,7 +59,7 @@ def main():
             exit(0)
 
     input_text = make_request(year, day)
-    if input_path is not None:
+    if input_text is not None:
         if not os.path.exists(os.path.join(".", "input")):
             os.mkdir(os.path.join(".", "input"))
         if not os.path.exists(os.path.join(".", "input", f"year{year}")):

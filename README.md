@@ -12,4 +12,10 @@ Make sure to install pip requirements before running any scripts.
 $ ./run.sh <language> <year> <day>
 ```
 
-Supported languages are in the `__run` folder.
+Supported languages are in the [`__run`](https://github.com/coizioc/advent-of-code/tree/main/__run) folder.
+
+Optionally, you can add the `-v` flag to the end of the `./run.sh` arguments to validate the output of the script against the answers for your given input (assuming you have already solved the problem/part on AOC):
+
+```bash
+$ ./run.sh <language> <year> <day> -v
+```
