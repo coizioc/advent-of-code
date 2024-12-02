@@ -1,0 +1,19 @@
+.env
+
+# VS Code
+.vscode/
+
+# C
+*.exe
+
+# Input
+input/
+
+# Java
+*.class
+
+# Python
+__pycache__/
+
+# Rust
+target/
